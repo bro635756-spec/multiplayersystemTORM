@@ -1,0 +1,4 @@
+[TORM_SYSTEM_START] 2026-08-03T21:38:26Z - Initialized multiplayersystemTORM
+[DB_INIT] In-Memory Realtime Database loaded successfully.
+[CONFIG_LOAD] Logging.xml and config.json parsed without errors.
+[READY] Waiting for Unity clients and incoming socket connections...
