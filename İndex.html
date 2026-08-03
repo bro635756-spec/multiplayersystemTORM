@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <title>multiplayersystemTORM - Live Dashboard</title>
     <link rel="stylesheet" href="3.css">
+    <link rel="stylesheet" href="5.css">
 </head>
 <body>
     <div class="torm-container">
         <h1>multiplayersystemTORM Dashboard</h1>
-        <p>Status: <span id="status" class="status-badge">Connecting...</span></p>
-        <div id="log-box" style="background: #090d12; padding: 10px; margin-top: 15px; border-radius: 4px; height: 150px; overflow-y: auto;"></div>
+        <div class="torm-panel">
+            <span>Sunucu Bağlantı Durumu:</span>
+            <span id="status" class="status-badge">Bağlanıyor...</span>
+        </div>
+        <div style="margin-top: 15px;">
+            <h3>Anlık Senkronizasyon Akışı</h3>
+            <div id="log-box" style="background: #090d12; padding: 12px; border-radius: 4px; height: 180px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #58a6ff;"></div>
+        </div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -18,17 +25,24 @@
         const logBox = document.getElementById('log-box');
 
         socket.on('connect', () => {
-            statusEl.textContent = 'ONLINE (Connected)';
+            statusEl.textContent = 'ONLINE';
             statusEl.style.color = '#2ea043';
+            logBox.innerHTML += `<div>[SYSTEM] Sunucuya basariyla baglanildi. ID: ${socket.id}</div>`;
         });
 
         socket.on('disconnect', () => {
-            statusEl.textContent = 'OFFLINE (Disconnected)';
+            statusEl.textContent = 'OFFLINE';
             statusEl.style.color = '#f85149';
+            logBox.innerHTML += `<div>[SYSTEM] Sunucu baglantisi koptu.</div>`;
         });
 
-        socket.on('sync_player', (data) => {
-            logBox.innerHTML += `<div>[SYNC] Player ${data.id} updated position.</div>`;
+        socket.on('sync_player', (packet) => {
+            logBox.innerHTML += `<div>[SYNC] Oyuncu (${packet.id}) konum güncelledi -> X: ${packet.data.x || 0}, Z: ${packet.data.z || 0}</div>`;
+            logBox.scrollTop = logBox.scrollHeight;
+        });
+
+        socket.on('player_left', (id) => {
+            logBox.innerHTML += `<div style="color: #f85149;">[DISCONNECT] Oyuncu ayrildi: ${id}</div>`;
             logBox.scrollTop = logBox.scrollHeight;
         });
     </script>
