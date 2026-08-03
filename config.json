@@ -1,0 +1,6 @@
+{
+  "serverName": "multiplayersystemTORM",
+  "port": 3000,
+  "maxPlayers": 5000,
+  "environment": "development"
+}
