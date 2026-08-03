@@ -1,0 +1,7 @@
+{
+  "systemStatus": "OK",
+  "authRequired": true,
+  "encryptionLevel": "TORM-Secure-v1",
+  "allowedOrigins": ["*"],
+  "heartbeatIntervalMs": 5000
+}
