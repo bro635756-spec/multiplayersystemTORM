@@ -16,10 +16,8 @@ class ServerCloud {
         this.io.on('connection', (socket) => {
             console.log(`[TORM CLOUD] Yeni oyuncu baglandi: ${socket.id}`);
 
-            // Oyuncu konum veya veri gonderdiginde
             socket.on('player_data_update', (packet) => {
                 db.set(socket.id, packet);
-                // Odadaki diger oyunculara yayinla (broadcast)
                 socket.broadcast.emit('sync_player', { id: socket.id, data: packet });
             });
 
