@@ -1,0 +1,13 @@
+.torm-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #21262d;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+.status-badge {
+    color: #2ea043;
+    font-weight: bold;
+}
