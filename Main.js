@@ -1,45 +1,49 @@
 const fs = require('fs');
 const path = require('path');
-const xml2js = require('xml2js'); // XML okumak için
+const xml2js = require('xml2js');
+const ServerCloud = require('./ServerCloud.js');
+const Main2 = require('./Main2.js');
 
 class MainServer {
     constructor() {
         this.config = {};
-        this.isInitialized = false;
+        this.cloud = null;
     }
 
     async init() {
-        console.log("[TORM] Sistem baslatiliyor...");
+        console.log("[TORM MAIN] multiplayersystemTORM baslatiliyor...");
         await this.loadLoggingConfig();
-        this.startEngine();
+        
+        // Yardimci alt sistemleri tetikle
+        Main2.bootSubsystems();
+
+        // Cloud sunucusunu baslat
+        const port = this.config.Port || 3000;
+        this.cloud = new ServerCloud(port);
+        this.cloud.start();
     }
 
     async loadLoggingConfig() {
         try {
             const xmlPath = path.join(__dirname, 'Logging.xml');
-            const xmlData = fs.readFileSync(xmlPath, 'utf8');
-            const parser = new xml2js.Parser();
-            
-            parser.parseString(xmlData, (err, result) => {
-                if (err) {
-                    console.error("[TORM] Logging.xml okunamadi:", err);
-                    return;
-                }
-                this.config = result;
-                console.log("[TORM] Logging.xml basariyla yüklendi ve ayarlari aldi.");
-            });
+            if (fs.existsSync(xmlPath)) {
+                const xmlData = fs.readFileSync(xmlPath, 'utf8');
+                const parser = new xml2js.Parser();
+                parser.parseString(xmlData, (err, result) => {
+                    if (!err && result && result.TORM_System && result.TORM_System.Settings) {
+                        const settings = result.TORM_System.Settings[0];
+                        this.config.Port = parseInt(settings.Port[0]) || 3000;
+                        console.log("[TORM MAIN] Logging.xml ayarlari basariyla uygulandi.");
+                    }
+                });
+            }
         } catch (e) {
-            console.log("[TORM] Varsayilan log ayarlari kullaniliyor.");
+            console.log("[TORM MAIN] Varsayilan port (3000) kullaniliyor.");
         }
-    }
-
-    startEngine() {
-        this.isInitialized = true;
-        console.log("[TORM] ServerCloud ve Database modulleri entegre edilmeye hazir.");
     }
 }
 
-const tormServer = new MainServer();
-tormServer.init();
+const server = new MainServer();
+server.init();
 
 module.exports = MainServer;
