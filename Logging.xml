@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TORM_System>
+    <Settings>
+        <ProjectName>multiplayersystemTORM</ProjectName>
+        <Environment>Cloud-Local</Environment>
+        <MaxPlayers>5000</MaxPlayers>
+        <Port>3000</Port>
+    </Settings>
+    <Logging>
+        <Level>DEBUG</Level>
+        <SaveToFile>true</SaveToFile>
+        <LogPath>./DatabaseMeta.log</LogPath>
+        <OutputTarget>ConsoleAndDatabase</OutputTarget>
+    </Logging>
+    <DatabaseEngine>
+        <Type>In-Memory-Realtime</Type>
+        <AutoBackup>true</AutoBackup>
+    </DatabaseEngine>
+</TORM_System>
