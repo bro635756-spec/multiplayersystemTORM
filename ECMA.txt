@@ -1,0 +1,3 @@
+Standard: ECMAScript 2022+ (ES Modules & CommonJS Hybrid Support)
+Engine: Node.js v18+ runtime required.
+Strict Mode: Enabled for all core modules.
