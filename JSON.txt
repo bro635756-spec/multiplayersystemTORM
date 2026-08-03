@@ -1,0 +1,9 @@
+{
+  "packet_id": "TORM-9921",
+  "player": {
+    "id": "Client-01",
+    "position": { "x": 12.4, "y": 0.0, "z": -45.2 },
+    "rotation": { "x": 0, "y": 90, "z": 0 },
+    "status": "moving"
+  }
+}
